@@ -5,7 +5,7 @@ zh-TW:
   bcf:
     label_bcf: 'BCF'
     label_imported_failed: 'Failed imports of BCF topics'
-    label_imported_successfully: 'Successfully imported BCF topics'
+    label_imported_successfully: ' '
     issues: "Issues"
     recommended: 'recommended'
     not_recommended: 'not recommended'
@@ -15,7 +15,8 @@ zh-TW:
       file_invalid: "BCF file invalid"
     x_bcf_issues:
       zero: 'No BCF issues'
-      other: ''
+      one: 'One BCF issue'
+      other: '%{count} BCF issues'
     bcf_xml:
       xml_file: 'BCF XML File'
       import_title: '匯入'

@@ -56,8 +56,8 @@ describe 'API v3 action resource', type: :request, content_type: :json do
         .at_path('_embedded/elements/0/id')
 
       expect(subject.body)
-        .to be_json_eql(Action.order(id: :asc).last.id.to_json)
-        .at_path("_embedded/elements/#{Action.count - 1}/id")
+        .to be_json_eql(Action.order(id: :asc).first.id.to_json)
+        .at_path("_embedded/elements/0/id")
     end
   end
 
@@ -81,6 +81,25 @@ describe 'API v3 action resource', type: :request, content_type: :json do
       expect(subject.body)
         .to be_json_eql("memberships/create".to_json)
         .at_path('id')
+    end
+
+    context 'with an action that has an underscore' do
+      let(:path) { api_v3_paths.action("work_packages/read") }
+
+      it 'returns 200 OK' do
+        expect(subject.status)
+          .to eql(200)
+      end
+
+      it 'returns the action' do
+        expect(subject.body)
+          .to be_json_eql('Action'.to_json)
+                .at_path('_type')
+
+        expect(subject.body)
+          .to be_json_eql("work_packages/read".to_json)
+                .at_path('id')
+      end
     end
 
     context 'if querying a non existing action' do

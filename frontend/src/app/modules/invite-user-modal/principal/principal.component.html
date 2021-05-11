@@ -4,7 +4,7 @@
 >
   <op-modal-header (close)="close.emit()">{{ text.title() }}</op-modal-header>
 
-  <div class="op-modal--body">
+  <div class="op-modal--body op-form">
     <op-form-field
       [label]="text.label[type]"
       required
@@ -18,7 +18,7 @@
         (createNew)="createNewFromInput($event)"
       ></op-ium-principal-search>
 
-      <div
+      <p
         *ngIf="isNewPrincipal && type === PrincipalType.User"
         slot="input"
       >
@@ -27,9 +27,9 @@
           class="op-link"
           (click)="principalControl?.setValue(null)"
           >{{ text.changeUserSelection }}</button>
-      </div>
+      </p>
 
-      <div
+      <p
         *ngIf="isNewPrincipal && type === PrincipalType.Placeholder"
         slot="input"
       >
@@ -38,7 +38,7 @@
           class="op-link"
           (click)="principalControl?.setValue(null)"
         >{{ text.changePlaceholderSelection }}</button>
-      </div>
+      </p>
 
       <div
         slot="errors"
@@ -48,6 +48,14 @@
         {{ text.required[type] }}
       </div>
     </op-form-field>
+
+    <op-dynamic-form
+      *ngIf="isNewPrincipal && type === PrincipalType.User && userDynamicFieldConfig.schema"
+      [dynamicFormGroup]="dynamicFieldsControl"
+      [settings]="userDynamicFieldConfig"
+      [resourcePath]="pathHelper.usersPath()"
+      [handleSubmit]="false"
+    ></op-dynamic-form>
   </div>
 
   <div class="op-modal--footer">
@@ -56,6 +64,6 @@
       class="button"
       (click)="back.emit()"
       >{{ text.backButton }}</button>
-    <button class="button">{{ text.nextButton }}</button>
+    <button class="button -highlight">{{ text.nextButton }}</button>
   </div>
 </form>

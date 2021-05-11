@@ -41,7 +41,8 @@ class Attachment < ApplicationRecord
   validates_length_of :description, maximum: 255
 
   validate :filesize_below_allowed_maximum,
-           :container_changed_more_than_once
+           if: -> { !internal_container? }
+  validate :container_changed_more_than_once
 
   acts_as_journalized
   acts_as_event title: -> { file.name },
@@ -52,9 +53,6 @@ class Attachment < ApplicationRecord
   mount_uploader :file, OpenProject::Configuration.file_uploader
 
   after_commit :extract_fulltext, on: :create
-
-  after_create :schedule_cleanup_uncontainered_job,
-               unless: :containered?
 
   ##
   # Returns an URL if the attachment is stored in an external (fog) attachment storage
@@ -292,14 +290,14 @@ class Attachment < ApplicationRecord
 
   private
 
-  def schedule_cleanup_uncontainered_job
-    Attachments::CleanupUncontaineredJob.perform_later
-  end
-
   def filesize_below_allowed_maximum
     if filesize > Setting.attachment_max_size.to_i.kilobytes
       errors.add(:file, :file_too_large, count: Setting.attachment_max_size.to_i.kilobytes)
     end
+  end
+
+  def internal_container?
+    container&.is_a?(Export)
   end
 
   def container_changed_more_than_once

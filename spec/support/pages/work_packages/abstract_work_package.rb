@@ -93,7 +93,7 @@ module Pages
 
     def ensure_page_loaded
       expect_angular_frontend_initialized
-      expect(page).to have_selector('.work-package-details-activities-activity-contents .user',
+      expect(page).to have_selector('.op-user-activity--user-name',
                                     text: work_package.journals.last.user.name,
                                     minimum: 1,
                                     wait: 10)
@@ -130,7 +130,7 @@ module Pages
       container = '#work-package-activites-container'
       container += " #activity-#{number}" if number
 
-      expect(page).to have_selector(container + ' .user', text: user.name)
+      expect(page).to have_selector(container + ' .op-user-activity--user-line', text: user.name)
     end
 
     def expect_activity_message(message)
@@ -147,13 +147,13 @@ module Pages
     def expect_zen_mode
       expect(page).to have_selector('.zen-mode')
       expect(page).to have_selector('#main-menu', visible: false)
-      expect(page).to have_selector('#top-menu', visible: false)
+      expect(page).to have_selector('.op-app-header', visible: false)
     end
 
     def expect_no_zen_mode
       expect(page).not_to have_selector('.zen-mode')
       expect(page).to have_selector('#main-menu', visible: true)
-      expect(page).to have_selector('#top-menu', visible: true)
+      expect(page).to have_selector('.op-app-header', visible: true)
     end
 
     def expect_custom_action(name)

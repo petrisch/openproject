@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 2.7.2'
+ruby '~> 2.7.3'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
@@ -189,6 +189,13 @@ gem 'ruby-progressbar', '~> 1.11.0', require: false
 
 gem 'mini_magick', '~> 4.11.0', require: false
 
+# Sentry error reporting, loaded on demand
+group :sentry do
+  gem "sentry-delayed_job", '~> 4.4.0', require: false
+  gem "sentry-rails", '~> 4.4.0', require: false
+  gem "sentry-ruby", '~> 4.4.1',  require: false
+end
+
 group :test do
   gem 'launchy', '~> 2.5.0'
   gem 'rack-test', '~> 1.1.0'
@@ -241,7 +248,7 @@ group :ldap do
 end
 
 group :development do
-  gem 'listen', '~> 3.4.0' # Use for event-based reloaders
+  gem 'listen', '~> 3.5.1' # Use for event-based reloaders
 
   gem 'faker'
   gem 'letter_opener'

@@ -37,7 +37,7 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { ContainHelpers } from 'core-app/modules/common/focus/contain-helpers';
+import { ContainHelpers } from 'core-app/modules/focus/contain-helpers';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
@@ -62,7 +62,7 @@ interface SearchResultItem {
   subject:string;
   status:string;
   statusId:string;
-  $href:string;
+  href:string;
   project:string;
   author:HalResource;
 }
@@ -302,7 +302,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
         subject: wp.subject,
         status: wp.status.name,
         statusId: wp.status.idFromLink,
-        $href: wp.$href,
+        href: wp.href,
         project: wp.project.name,
         author: wp.author
       } as SearchResultItem;
@@ -438,7 +438,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   }
 
   private toggleTopMenuClass() {
-    jQuery('#top-menu').toggleClass('-global-search-expanded', this.expanded);
+    jQuery('.op-app-header').toggleClass('op-app-header_search-open', this.expanded);
   }
 }
 
